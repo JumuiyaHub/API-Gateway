@@ -11,6 +11,7 @@ datasources:
       exemplarTraceIdDestinations:
         - name: trace_id
           datasourceUid: tempo
+
   - name: Tempo
     type: tempo
     access: proxy
@@ -25,9 +26,10 @@ datasources:
     jsonData:
       httpMethod: GET
       tracesToLogs:
-        datasourceUid: 'loki'
+        datasourceUid: loki
       nodeGraph:
         enabled: true
+
   - name: Loki
     type: loki
     uid: loki
@@ -41,7 +43,7 @@ datasources:
     apiVersion: 1
     jsonData:
       derivedFields:
-        - datasourceUid: tempo
-            matcherRegex: \[.+,(.+?),
-            name: TraceID
-            url: $${__value.raw}
+        - name: TraceID
+          matcherRegex: \[.+,(.+?),
+          url: $${__value.raw}
+          datasourceUid: tempo
